@@ -1,7 +1,13 @@
+require('dotenv').config();
 const express = require('express')
 const app = express();
 const cors = require('cors');
-const port = 3000;
+const mongoose = require('mongoose');
+const connectDB = require('./config/dbConn');
+const PORT = process.env.PORT || 3000;
+
+// connect to mongoDB
+connectDB();
 
 // cross origin resource sharing
 // allows acces to data/backend from these servers
@@ -21,6 +27,7 @@ app.get('/', (req, res) => {
 
 app.use('/posts', require('./routes/posts'));
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB');
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 })
