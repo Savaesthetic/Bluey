@@ -1,6 +1,6 @@
 import api from '../api';
 
-export const fetchAllPosts = () => {};
+export const fetchAllPosts = () => api.get('/posts');
 
 export const fetchPostById = () => {};
 
