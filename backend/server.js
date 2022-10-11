@@ -21,10 +21,6 @@ app.use(express.urlencoded({ extended: false }));
 // built-in middleware for json
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
 app.use('/posts', require('./routes/posts'));
 
 mongoose.connection.once('open', () => {
