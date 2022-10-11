@@ -1,43 +1,48 @@
 import "./PostForm.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { createPost } from "../api/services/postApi";
-import { useDispatch } from 'react-redux';
-import { addPost } from "../redux/slices/post";
+import { useNavigate, useParams } from "react-router-dom";
+import { updatePost } from "../api/services/postApi";
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPostById, updatePost as updateReduxPost } from "../redux/slices/post";
 
-const CreatePost = () => {
+const UpdatePost = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { postId } = useParams();
+    const post = useSelector(state => selectPostById(state, postId));
 
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [title, setTitle] = useState(post.title);
+    const [content, setContent] = useState(post.content);
 
     const onTitleChanged = e => setTitle(e.target.value);
     const onContentChanged = e => setContent(e.target.value);
 
-    // make sure all fields are truthy which in this case means not empty
-    const canSave = [title, content].every(Boolean);
+    const canUpdate = [title, content].every(Boolean);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (canSave) {
+        if (canUpdate) {
             try {
-                const newPost = {
+                const updatedPost = {
+                    _id: post._id,
                     title: title,
                     content: content,
-                    likes: 0,
-                    dislikes: 0
+                    likes: post.likes,
+                    dislikes: post.dislikes
                 }
-                await createPost(newPost)
-                    .then(res => res.data)
-                    .then(post => dispatch(addPost(post)));
+
+                const res = await updatePost(updatedPost);
+                // I destructure the returned object here because setting the changes in the dispath 
+                // to the whole object causes issues with rerendering the home page
+                const { _id, ...changes} = await res.data;
+
+                dispatch(updateReduxPost({ id: _id, changes: changes }));
                 navigate('/');
             } catch (err) {
                 console.error('Failed to save the post', err)
             }
         }
-
     }
 
     return (
@@ -62,11 +67,11 @@ const CreatePost = () => {
                 <button
                     type="button"
                     onClick={handleSubmit}
-                    disabled={!canSave}
-                >Save Post</button>
+                    disabled={!canUpdate}
+                >Update Post</button>
             </form>
         </section>
     )
 }
 
-export default CreatePost
+export default UpdatePost
