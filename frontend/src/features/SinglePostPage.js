@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { selectPostById, deletePost as reduxDeletePost } from "../redux/slices/post";
+import { selectPostById, deletePostThunk, updatePostThunk } from "../redux/slices/post";
 import { useParams, useNavigate } from "react-router-dom";
-import { deletePost } from "../api/services/postApi";
 import { BsFileArrowUp, BsFileArrowDown } from 'react-icons/bs'
 import { BiComment } from 'react-icons/bi'
 import { RiDeleteBinLine } from 'react-icons/ri'
@@ -13,28 +12,27 @@ const SinglePostPage = () => {
     const { postId } = useParams();
     const post = useSelector(state => selectPostById(state, postId));
 
-    const deletePostFunc = async () => {
-        try {
-            await deletePost(postId);
-            dispatch(reduxDeletePost(postId));
-            navigate('/');
-        } catch (err) {
-            console.error('Failed to delete the post', err);
-        }
+    const deletePostFunc = () => {
+        dispatch(deletePostThunk(postId));
+        navigate('/');
     }
 
     const editPost = () => navigate(`/posts/update/${postId}`);
 
-    const callEvent = (e) => {
-        console.log('event');
+    const voteClicked = (val) => {
+        const payload = {
+            id: post._id,
+            updates: { votes: post.votes + val}
+        }
+        dispatch(updatePostThunk(payload));
     }
 
     return (
         <div className='single-post'>
             <div id='post-card-votes'>
-                <BsFileArrowUp className='post-card-upvote' size={25} onClick={e => callEvent(e)}/> 
+                <BsFileArrowUp className='post-card-upvote' size={25} onClick={() => voteClicked(1)}/> 
                 {post.votes} 
-                <BsFileArrowDown className='post-card-downvote' size={25} onClick={e => callEvent(e)}/>
+                <BsFileArrowDown className='post-card-downvote' size={25} onClick={() => voteClicked(-1)}/>
             </div>
             <div id='post-card-body'>
                 <div className='post-card-title'>{post.title}</div>

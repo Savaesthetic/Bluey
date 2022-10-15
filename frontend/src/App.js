@@ -5,13 +5,7 @@ import CreatePost from "./features/CreatePost";
 import SinglePostPage from "./features/SinglePostPage";
 import UpdatePost from "./features/UpdatePost";
 
-import { setPostState } from "./redux/slices/post";
-import { useDispatch } from 'react-redux';
-
 function App() {
-  // grab all users and set user state on first mount
-  const dispatch = useDispatch();
-  dispatch(setPostState());
 
   return (
     <Routes>
