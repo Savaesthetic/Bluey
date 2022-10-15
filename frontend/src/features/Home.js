@@ -6,9 +6,9 @@ const Home = () => {
   const posts = useSelector(selectAllPosts);
 
   return (
-    <div>
+    <section id="home-page">
       {posts.map(post => <PostCard key={post._id} postData={post} />)}
-    </div>
+    </section>
   )
 }
 

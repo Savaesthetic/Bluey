@@ -10,13 +10,13 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
-    likes: {
+    votes: {
         type: Number,
         required: true
     },
-    dislikes: {
-        type: Number,
-        required: true
+    created: {
+        type: Date,
+        default: Date.now()
     }
 });
 

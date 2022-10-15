@@ -24,15 +24,12 @@ const UpdatePost = () => {
 
         if (canUpdate) {
             try {
-                const updatedPost = {
-                    _id: post._id,
+                const updates = {
                     title: title,
                     content: content,
-                    likes: post.likes,
-                    dislikes: post.dislikes
                 }
 
-                const res = await updatePost(updatedPost);
+                const res = await updatePost({id: post._id, updates: updates});
                 // I destructure the returned object here because setting the changes in the dispath 
                 // to the whole object causes issues with rerendering the home page
                 const { _id, ...changes} = await res.data;
@@ -46,8 +43,8 @@ const UpdatePost = () => {
     }
 
     return (
-        <section>
-            <h2>Create a New Post</h2>
+        <section id='post-form'>
+            <h1>Update Post</h1>
             <form>
                 <label htmlFor="postTitle">Post Title:</label>
                 <input
