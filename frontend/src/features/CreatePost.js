@@ -1,9 +1,8 @@
 import "./PostForm.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createPost } from "../api/services/postApi";
 import { useDispatch } from 'react-redux';
-import { addPost } from "../redux/slices/post";
+import { createPost } from "../redux/slices/post";
 
 const CreatePost = () => {
     const navigate = useNavigate();
@@ -18,23 +17,17 @@ const CreatePost = () => {
     // make sure all fields are truthy which in this case means not empty
     const canSave = [title, content].every(Boolean);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         if (canSave) {
-            try {
-                const newPost = {
-                    title: title,
-                    content: content,
-                    votes: 0
-                }
-                await createPost(newPost)
-                    .then(res => res.data)
-                    .then(post => dispatch(addPost(post)));
-                navigate('/');
-            } catch (err) {
-                console.error('Failed to save the post', err)
+            const newPost = {
+                title: title,
+                content: content,
+                votes: 0
             }
+            dispatch(createPost(newPost));
+            navigate('/');
         }
 
     }

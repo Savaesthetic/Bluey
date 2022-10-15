@@ -1,9 +1,8 @@
 import "./PostForm.css";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { updatePost } from "../api/services/postApi";
 import { useDispatch, useSelector } from 'react-redux';
-import { selectPostById, updatePost as updateReduxPost } from "../redux/slices/post";
+import { selectPostById, updatePostThunk } from "../redux/slices/post";
 
 const UpdatePost = () => {
     const navigate = useNavigate();
@@ -19,26 +18,16 @@ const UpdatePost = () => {
 
     const canUpdate = [title, content].every(Boolean);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         if (canUpdate) {
-            try {
-                const updates = {
-                    title: title,
-                    content: content,
-                }
-
-                const res = await updatePost({id: post._id, updates: updates});
-                // I destructure the returned object here because setting the changes in the dispath 
-                // to the whole object causes issues with rerendering the home page
-                const { _id, ...changes} = await res.data;
-
-                dispatch(updateReduxPost({ id: _id, changes: changes }));
-                navigate('/');
-            } catch (err) {
-                console.error('Failed to save the post', err)
+            const updates = {
+                title: title,
+                content: content,
             }
+            dispatch(updatePostThunk({id: post._id, updates: updates}));
+            navigate('/');
         }
     }
 
