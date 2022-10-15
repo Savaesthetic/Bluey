@@ -12,4 +12,4 @@ export const createPost = (newPost) => api.post('/posts/create', newPost);
 
 export const deletePost = (postId) => api.delete(`/posts/delete/${postId}`);
 
-export const updatePost = (updatedPost) => api.post('/posts/update', updatedPost);
+export const updatePost = (reqBody) => api.post('/posts/update', reqBody);

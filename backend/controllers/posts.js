@@ -34,10 +34,10 @@ exports.createPost = async (req, res) => {
 }
 
 exports.updatePost = async (req, res) => {
-    const updatedPost = req.body;
+    const { id, updates } = req.body;
     try {
         // uses the new: true option to return the newly updated record rather than the record before update
-        const updated = await Post.findOneAndUpdate({ _id: updatedPost._id }, updatedPost, { new: true });
+        const updated = await Post.findOneAndUpdate({ _id: id }, updates, { new: true });
         res.status(201).json(updated);
     } catch (error) {
         res.status(409).json({ message: error.message });    

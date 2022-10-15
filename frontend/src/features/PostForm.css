@@ -1,10 +1,21 @@
-section {
-    margin-top: 1em;
+#post-form {
+    background-color: #f4f1eb;
+	border-radius: 6px;
+	box-shadow: 0 0 5px gray;
+	margin: 5%;
+	padding: 10px;
+	width: 725px;
+	height: 350px;
 }
 
-form {
+#post-form h1 {
+    font-size: 32px;
+}
+
+#post-form form {
     display: flex;
     flex-direction: column;
+    font-size: 20px;
 }
 
 input,

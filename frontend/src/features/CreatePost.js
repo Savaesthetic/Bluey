@@ -26,8 +26,7 @@ const CreatePost = () => {
                 const newPost = {
                     title: title,
                     content: content,
-                    likes: 0,
-                    dislikes: 0
+                    votes: 0
                 }
                 await createPost(newPost)
                     .then(res => res.data)
@@ -41,8 +40,8 @@ const CreatePost = () => {
     }
 
     return (
-        <section>
-            <h2>Create a New Post</h2>
+        <section id='post-form'>
+            <h1>Create a New Post</h1>
             <form>
                 <label htmlFor="postTitle">Post Title:</label>
                 <input
