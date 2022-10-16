@@ -10,6 +10,12 @@ const SinglePostPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { postId } = useParams();
+    /*
+        Error will be thrown when refreshing page since app is remounted and 
+        posts are loaded into state on home page so no posts to grab.
+        Can search for post from back-end db if not found in state.
+        If still not found return div with message.
+    */
     const post = useSelector(state => selectPostById(state, postId));
 
     const deletePostFunc = () => {
