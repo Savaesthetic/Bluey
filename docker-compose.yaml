@@ -1,0 +1,22 @@
+services:
+  sava-react-frontend:
+    build: ./frontend/
+    ports:
+      - 3000:3000 # we want to be able to connect to the frontend so we ahve to expose ports
+  sava-node-backend:
+    build: ./backend/
+    restart: always # restarts the node server if it cant connect to db since container built before db container
+    ports:
+      - 3500:3500 
+    # normally would use environment variables to specify things like db URI but I'm just hardcoding the value based on this compose file
+  sava-mongodb:
+    image: mongo
+    # dont need to specify ports since the db should only be accessed by other container services
+    # normally need to add environment variables for db username and password but I'm ignoring it since it's only accessable via local container network
+  sava-mongo-express:
+    image: mongo-express
+    restart: always # restarts the mongo-express container if it shuts down since it started before the mongodb container
+    ports:
+      - 8081:8081 # can access localhost:8081 to get a look at the db using mongo express 
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=sava-mongodb # this is the name it uses when connecting to the db

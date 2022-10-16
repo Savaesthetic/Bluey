@@ -1,12 +1,19 @@
 # Bluey
 Full stack application for forum using Docker.
 
-# When creating images make sure they are on the same network so they can communicate
+# RUNNING INSTRUCTIONS
+## YOU MUST HAVE DOCKER RUNNING ON YOUR HOST COMPUTER
+To run the full stack applications simply download the repo zip file, extract it, and run the docker-compose file using:
+### docker-compose -f <filepath> up
+### To run in a detached state simply add the -d option after up. Ex:
+docker-compose -f <filepath> up -d
+### The filepath is the filepath to the docker-compose.yaml file which is just docker-compose.yaml if you are in the repo directory
+### The first run of the command will have to build the containers before starting them
 
-docker run -d -p 27017:27017 --name mongodb --net mongo-network mongo
+# Important Notes
 
-docker run -d -p 8081:8081 --name mongo-express --net mongo-network -e ME_CONFIG_MONGODB_SERVER=mongodb mongo-express
+### When you first build the project the database will be empty so you must first populate it with some information by creating posts etc...
 
-need to swap uri to 'mongodb://mongo:27017' once I ahve settled everything into containers
+### If you want to change the ports the containers are running on for some reason or want to edit the compose file to give the containers new names you'll have to manually go through the frontend and backend folders and change the hardcoded url/uri
 
-keep an eye out on how the db is created and chosen when first connecting to the db server
+### The project is not fully optimised for deployment so there might be some errors
