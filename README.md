@@ -17,3 +17,8 @@ docker-compose -f \[filepath\] up -d
 ### If you want to change the ports the containers are running on for some reason or want to edit the compose file to give the containers new names you'll have to manually go through the frontend and backend folders and change the hardcoded url/uri
 
 ### The project is not fully optimised for deployment so there might be some errors
+
+# TODOS
+1. Add user sign-up and login with authentication
+2. Add ability to comment on posts
+3. Add ability to reply to comments
