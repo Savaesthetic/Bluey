@@ -8,7 +8,7 @@ To run the full stack applications simply download the repo zip file, extract it
 ### To run in a detached state simply add the -d option after up. Ex:
 docker-compose -f \[filepath\] up -d
 ### The filepath is the filepath to the docker-compose.yaml file which is just docker-compose.yaml if you are in the repo directory
-### The first run of the command will have to build the containers before starting them
+### The first run of the command will have to build the containers before starting them and allowing you to visit the web application at localhost:3000
 
 # Important Notes
 
