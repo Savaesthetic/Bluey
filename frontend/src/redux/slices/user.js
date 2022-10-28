@@ -20,23 +20,25 @@ export const userSlice = createSlice({
   }),
   reducers: {
     removeUsers: userAdapter.removeAll,
+    setStatus: (state, action) => {
+      state.status = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(registerUserThunk.fulfilled, (state, action) => {
+        state.status = "succeeded";
         userAdapter.addOne(state, action.payload);
       })
       .addCase(registerUserThunk.rejected, (state, action) => {
-        // should change status of user to failed and set error message to be used on registration page
-        // currently just prints payload to console
-        console.log(action.payload);
+        state.status = "failed";
       })
       .addCase(loginUserThunk.fulfilled, (state, action) => {
+        state.status = "succeeded";
         userAdapter.addOne(state, action.payload);
       })
       .addCase(loginUserThunk.rejected, (state, action) => {
         state.status = "failed";
-        console.log(`failed login`);
       });
   },
 });
@@ -62,5 +64,5 @@ export const { selectAll: selectAllUsers } = userAdapter.getSelectors(
 );
 export const getUsersStatus = (state) => state.users.status;
 
-export const { removeUsers } = userSlice.actions;
+export const { removeUsers, setStatus } = userSlice.actions;
 export default userSlice.reducer;

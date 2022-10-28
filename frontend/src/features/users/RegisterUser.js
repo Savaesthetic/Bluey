@@ -1,14 +1,32 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { registerUserThunk } from "../../redux/slices/user";
+import {
+  registerUserThunk,
+  getUsersStatus,
+  setStatus,
+} from "../../redux/slices/user";
 
 const RegisterUser = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userState = useSelector((state) => getUsersStatus(state));
+
+  useEffect(() => {
+    if (userState === "failed") {
+      dispatch(setStatus("idle"));
+      setErrMsg("User with that username already exists");
+    } else if (userState === "succeeded") {
+      dispatch(setStatus("idle"));
+      // reset error message incase there was registration error before
+      setErrMsg("");
+      navigate("/");
+    }
+  }, [userState, dispatch, navigate]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
   const onUsernameChanged = (e) => setUsername(e.target.value);
   const onPasswordChanged = (e) => setPassword(e.target.value);
@@ -22,12 +40,12 @@ const RegisterUser = () => {
     };
 
     dispatch(registerUserThunk(user));
-    navigate("/");
   };
 
   return (
     <div>
       <form>
+        <p>{errMsg}</p>
         <label htmlFor="username">Username:</label>
         <input
           type="text"

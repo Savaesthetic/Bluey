@@ -7,10 +7,7 @@ exports.getUser = async (req, res) => {
       username: username,
       password: password,
     });
-    if (!user)
-      return res
-        .status(404)
-        .json({ message: "Need to return something other than" });
+    if (!user) return res.sendStatus(404);
     res.json(user);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -20,7 +17,6 @@ exports.getUser = async (req, res) => {
 exports.createUser = async (req, res) => {
   try {
     const duplicate = await User.findOne({ username: req.body.username });
-    // TODO if user exist return rejected promise
     if (duplicate) return res.sendStatus(409); // conflict
 
     const newUser = new User(req.body);
