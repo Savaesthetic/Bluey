@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginUserThunk } from "../../redux/slices/user";
+import { loginUserThunk, getUsersStatus } from "../../redux/slices/user";
 
 const UserLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userState = useSelector((state) => getUsersStatus(state));
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

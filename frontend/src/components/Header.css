@@ -1,38 +1,42 @@
 header {
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #0c0c0c;
-    color: whitesmoke;
-    top: 0;
-    font-size: 1.5em;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: whitesmoke;
+  top: 0;
+  font-size: 1.5em;
 }
 
 header h1 {
-    margin: 0;
+  margin: 0;
 }
 
 nav {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 nav ul {
-    list-style-type: none;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
 }
 
 nav ul li {
-    display: inline-block;
-    margin-right: 1rem;
-    font-size: 1em;
+  display: inline-block;
+  margin-right: 1rem;
+  font-size: 1em;
 }
 
-nav a, nav a:visited {
-    color: #fff;
-    text-decoration: none;
+nav a,
+nav a:visited {
+  color: #fff;
+  text-decoration: none;
 }
 
-nav a:hover, nav a:focus {
-    text-decoration: underline;
+nav a:hover,
+nav a:focus {
+  text-decoration: underline;
 }

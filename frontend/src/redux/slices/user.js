@@ -35,9 +35,8 @@ export const userSlice = createSlice({
         userAdapter.addOne(state, action.payload);
       })
       .addCase(loginUserThunk.rejected, (state, action) => {
-        // should change status of user to failed and set error message to be used on registration page
-        // currently just prints payload to console
-        console.log(action.payload);
+        state.status = "failed";
+        console.log(`failed login`);
       });
   },
 });
@@ -52,9 +51,7 @@ export const registerUserThunk = createAsyncThunk(
 );
 
 export const loginUserThunk = createAsyncThunk("users/login", async (user) => {
-  // if user does not exist we should get a rejected promise
   const res = await handleUserLogin(user);
-  console.log(res.data);
   return res.data;
 });
 
@@ -65,4 +62,5 @@ export const { selectAll: selectAllUsers } = userAdapter.getSelectors(
 );
 export const getUsersStatus = (state) => state.users.status;
 
+export const { removeUsers } = userSlice.actions;
 export default userSlice.reducer;

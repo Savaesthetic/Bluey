@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectAllUsers } from "../redux/slices/user";
+import UserDropdown from "../features/users/UserDropdown";
 import "./Header.css";
 
 const Header = () => {
@@ -18,7 +19,7 @@ const Header = () => {
             <Link to="/posts/create">Create Post</Link>
           </li>
           {users.length ? (
-            users[0].username
+            <UserDropdown username={users[0].username} />
           ) : (
             <>
               <li>

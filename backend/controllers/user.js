@@ -8,9 +8,8 @@ exports.getUser = async (req, res) => {
       password: password,
     });
     if (!user)
-      // TODO need to return rejected promise here
       return res
-        .status(204)
+        .status(404)
         .json({ message: "Need to return something other than" });
     res.json(user);
   } catch (error) {
