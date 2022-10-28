@@ -15,11 +15,13 @@ const SinglePostPage = () => {
   const dispatch = useDispatch();
   const { postId } = useParams();
   /*
-        Error will be thrown when refreshing page since app is remounted and 
-        posts are loaded into state on home page so no posts to grab.
-        Can search for post from back-end db if not found in state.
-        If still not found return div with message.
-    */
+    Error will be thrown when refreshing page since app is remounted and 
+    posts are loaded into state on home page so no posts to grab.
+    Maybe a useEffect hook and in that use effect we try to grab post 
+    from the state. If the post does not exist. Try to grab post from the backend.
+    Also have a use Effect for userState to check to see if backend returned error 
+    in order to post error message
+  */
   const post = useSelector((state) => selectPostById(state, postId));
 
   const deletePostFunc = () => {

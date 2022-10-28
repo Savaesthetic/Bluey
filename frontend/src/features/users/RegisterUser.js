@@ -34,6 +34,11 @@ const RegisterUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (password.length < 4 || password.length > 12) {
+      setErrMsg("Password must be between 4 to 12 characters");
+      return;
+    }
+
     const user = {
       username: username,
       password: password,
@@ -44,7 +49,7 @@ const RegisterUser = () => {
 
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <p>{errMsg}</p>
         <label htmlFor="username">Username:</label>
         <input
@@ -53,6 +58,7 @@ const RegisterUser = () => {
           name="username"
           value={username}
           onChange={onUsernameChanged}
+          required
         />
         <label htmlFor="password">Password:</label>
         <input
@@ -61,10 +67,9 @@ const RegisterUser = () => {
           name="password"
           value={password}
           onChange={onPasswordChanged}
+          required
         />
-        <button type="button" onClick={handleSubmit}>
-          Register
-        </button>
+        <input type="submit" value="Register" />
       </form>
     </div>
   );

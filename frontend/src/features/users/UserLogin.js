@@ -18,7 +18,7 @@ const UserLogin = () => {
       setErrMsg("User does not exist");
     } else if (userState === "succeeded") {
       dispatch(setStatus("idle"));
-      // reset error message incase there was registration error before
+      // reset error message incase there was login error before
       setErrMsg("");
       navigate("/");
     }
@@ -34,6 +34,11 @@ const UserLogin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (password.length < 4 || password.length > 12) {
+      setErrMsg("Password must be between 4 to 12 characters");
+      return;
+    }
+
     const user = {
       username: username,
       password: password,
@@ -44,7 +49,7 @@ const UserLogin = () => {
 
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <p>{errMsg}</p>
         <label htmlFor="username">Username:</label>
         <input
@@ -53,6 +58,7 @@ const UserLogin = () => {
           name="username"
           value={username}
           onChange={onUsernameChanged}
+          required
         />
         <label htmlFor="password">Password:</label>
         <input
@@ -61,10 +67,9 @@ const UserLogin = () => {
           name="password"
           value={password}
           onChange={onPasswordChanged}
+          required
         />
-        <button type="button" onClick={handleSubmit}>
-          Login
-        </button>
+        <input type="submit" value="Login" />
       </form>
     </div>
   );

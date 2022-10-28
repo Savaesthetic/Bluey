@@ -1,25 +1,37 @@
 const User = require("../model/User");
+const bcrypt = require("bcrypt");
 
 exports.getUser = async (req, res) => {
   let { username, password } = req.body;
   try {
-    const user = await User.findOne({
+    const foundUser = await User.findOne({
       username: username,
-      password: password,
     });
-    if (!user) return res.sendStatus(404);
-    res.json(user);
+    if (!foundUser) return res.sendStatus(401);
+
+    const match = await bcrypt.compare(password, foundUser.password);
+    if (match) {
+      res.json(foundUser);
+    } else {
+      res.sendStatus(401);
+    }
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
 
 exports.createUser = async (req, res) => {
+  let { username, password } = req.body;
   try {
-    const duplicate = await User.findOne({ username: req.body.username });
+    const duplicate = await User.findOne({ username: username });
     if (duplicate) return res.sendStatus(409); // conflict
 
-    const newUser = new User(req.body);
+    const hashedPwd = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      username: username,
+      password: hashedPwd,
+    });
     await newUser.save();
     res.status(201).json(newUser);
   } catch (error) {
